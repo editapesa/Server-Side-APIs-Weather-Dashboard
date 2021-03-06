@@ -28,6 +28,16 @@ $(document).on('click', '.savedSearch', function() {
     getWeatherInfo(thisElement.text());
 })
 
+function renderSavedSearches(chosenCityName) {
+    cityListEl.empty();
+    let cityListArr = JSON.parse(localStorage.getItem('citySearches'));
+    for (let i = 0; i < cityListArr.length; i++) {
+        let newListItem = $('<li>').attr('class', 'savedSearch');
+        newListItem.text(cityListArr[i]);
+        cityListEl.prepend(newListItem);
+    }
+}
+
 function renderWeatherInfo(chosenCityName, cityTemp, cityHumid, cityWindSp, cityWthrIcon, uvRate) {
     chosenCityEl.text(chosenCityName);
     currentDateEl.text(todaysDate);
@@ -42,9 +52,7 @@ function renderWeatherInfo(chosenCityName, cityTemp, cityHumid, cityWindSp, city
 https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
 
 //local storage to store city search history
-for (var i = 0; i < localStorage.length; i++) {
-     var city = localStorage.getItem(i);
-}
+
 
 // $('.saveBtn').on('click', function () {
 //     var eventDescription = $(this).siblings('.description').val();
