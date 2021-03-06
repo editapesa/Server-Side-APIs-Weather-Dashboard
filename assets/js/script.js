@@ -16,8 +16,27 @@ var uvIndexEl = $('.uv-index');
 var cardRow = $('.card-row');
 
 
-//function to enter city for search
+//start city search
+searchButton.on('click', function(e) {
+    e.preventDefault();
 
+    getWeatherInfo(citySearch.val());
+});
+
+$(document).on('click', '.savedSearch', function() {
+    let thisElement = $(this);
+    getWeatherInfo(thisElement.text());
+})
+
+function renderWeatherInfo(chosenCityName, cityTemp, cityHumid, cityWindSp, cityWthrIcon, uvRate) {
+    chosenCityEl.text(chosenCityName);
+    currentDateEl.text(todaysDate);
+    tempEl.text('Temperature: ${cityTemp} °F');
+    humidityEl.text('Humidity: ${cityHumid}%');
+    windSpeedEl.text('Wind Speed: ${cityWindSp} MPH');
+    uvIndexEl.text('UV Index: ${uvRate}');
+    weatherIconEl.attr('src', cityWthrIcon);
+}
 
 //function to get weather from api 
 https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
