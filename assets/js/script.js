@@ -70,11 +70,39 @@ function getWeatherInfo(selectedCity) {
         url: queryUrl,
         method: 'GET'
     })
-    then 
+    then(function(uvInfo) {
+        if (JSON.parse(localStorage.getItem('citySearches')) == null) {
+            let cityListArr = [];
+            if (cityListArr.indexOf(cityInfo.chosenCityName) === -1) {
+                cityListArr.push(cityInfo.chosenCityName);
+                localStorage.setItem('citySearches', JSON.stringify(cityListArr));
+                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;               
+                renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);               
+                renderSavedSearches(cityInfo.chosenCityName);
+            }else{
+                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
+                renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);
+            }
+        }else{
+            let cityListArr = JSON.parse(localStorage.getItem('citySearches'));
+            if (cityListArr.indexOf(cityInfo.chosenCityName) === -1) {
+                cityListArr.push(cityInfo.chosenCityName);
+                localStorage.setItem('citySearches', JSON.stringify(cityListArr));
+                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
+                renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);               
+                renderSavedSearches(cityInfo.chosenCityName);
+            }else{
+                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
+                renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);
+            }
+        }
     })
+    });
+
+    //five day forecast
 }
 
-//current weather data api
+
 
 
 //5 day forecast api
