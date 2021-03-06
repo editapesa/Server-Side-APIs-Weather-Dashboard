@@ -4,9 +4,16 @@ var citySearch = S('.city-input');
 var key = "c8991a84574210433ef4c391a616abb1"; 
 
 var chosenCityEl = $('.chosen-city');
-var currentDateEl = $('current-date')
+var currentDateEl = $('.current-date');
+var weatherIconEl = $('.weather-icon');
+var cityListEl = $('.city-list');
  
 var todaysDate = moment().format("MMM Do YYYY");
+var tempEl = $('.temp');
+var humidityEl = $('.humidity');
+var windSpeedEl = $('.wind-speed');
+var uvIndexEl = $('.uv-index');
+var cardRow = $('.card-row');
 
 
 //function to enter city for search
