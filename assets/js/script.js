@@ -28,6 +28,7 @@ $(document).on('click', '.savedSearch', function() {
     getWeatherInfo(thisElement.text());
 })
 
+//local storage to store city search history
 function renderSavedSearches(chosenCityName) {
     cityListEl.empty();
     let cityListArr = JSON.parse(localStorage.getItem('citySearches'));
@@ -48,16 +49,39 @@ function renderWeatherInfo(chosenCityName, cityTemp, cityHumid, cityWindSp, city
     weatherIconEl.attr('src', cityWthrIcon);
 }
 
-//function to get weather from api 
-https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
+//function to get current weather from api 
+function getWeatherInfo(selectedCity) {
+    let queryUrl = 'https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${key}&units=imperial';
+    $.ajax({
+        url: queryUrl,
+        method: 'GET' 
+    })
+    .then(function(weatherInfo) {
+        let cityInfo = {
+            chosenCityName: weatherInfo.name,
+            cityTemp: weatherInfo.main.temp,
+            cityHumid: weatherInfo.main.humidity,
+            cityWindSp: weatherInfo.wind.speed,
+            uvRate: weatherInfo.coord,
+            cityWthrIcon: weatherInfo.weather[0].icon 
+        }
+    let queryUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityInfo.uvRate.lat}&lon=${cityInfo.uvRate.lon}&APPID=${key}&units=imperial`
+    $.ajax({
+        url: queryUrl,
+        method: 'GET'
+    })
+    then 
+    })
+}
 
-//local storage to store city search history
+//current weather data api
 
 
-// $('.saveBtn').on('click', function () {
-//     var eventDescription = $(this).siblings('.description').val();
-//     var timeOfDay = $(this).parent().attr('id');
+//5 day forecast api
+//https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
 
-//     localStorage.setItem(timeOfDay, eventDescription);
-// });
+
+
+
+
 
