@@ -70,7 +70,7 @@ function getWeatherInfo(selectedCity) {
         url: queryUrl,
         method: 'GET'
     })
-    then(function(uvInfo) {
+    .then(function(uvInfo) {
         if (JSON.parse(localStorage.getItem('citySearches')) == null) {
             let cityListArr = [];
             if (cityListArr.indexOf(cityInfo.chosenCityName) === -1) {
@@ -95,11 +95,35 @@ function getWeatherInfo(selectedCity) {
                 let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
                 renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);
             }
+        
         }
     })
     });
 
-    //five day forecast
+    // get five day forecast
+    function displayNextFiveDays() {
+        cardRow.empty();
+        let queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q={selectedCity}&appid={key}'
+        $.ajax({
+            url: queryUrl,
+            method: 'GET'
+        })
+        .then (function(fiveDayForecast) {
+            for (let i = 0; i != fiveDayForecast.list.length; i+=8 ) {
+                let cityInfo = {
+                    date: fiveDayForecast.list[i].dt_txt,
+                    icon: fiveDayForecast.list[i].weather[0].icon,
+                    temp: fiveDayForecast.list[i].main.temp,
+                    humidity: fiveDayForecast.list[i].main.humidity
+                }
+                let dateInfo = cityInfo.date;
+                let trDate = dateInfo.substring(0, 10);
+                let wthrIcon = 'https://openweather.org/img/w/${cityInfo.icon}.png';
+                displayForecastCard(trDate, wthrIcon, cityInfo.temp, cityInfo.humidity);
+            }
+        })
+    }
+    
 }
 
 
