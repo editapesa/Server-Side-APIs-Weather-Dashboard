@@ -1,6 +1,7 @@
 var searchButton = $('.searchBtn');
 var citySearch = S('.city-input');
 
+//api key
 var key = "c8991a84574210433ef4c391a616abb1"; 
 
 var chosenCityEl = $('.chosen-city');
@@ -100,7 +101,9 @@ function getWeatherInfo(selectedCity) {
     })
     });
 
-    // get five day forecast
+// get five day forecast
+//5 day forecast api
+//https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
     function displayNextFiveDays() {
         cardRow.empty();
         let queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q={selectedCity}&appid={key}'
@@ -123,14 +126,26 @@ function getWeatherInfo(selectedCity) {
             }
         })
     }
-    
+
+}
+
+function displayForecastCard(date, icon, temp, humidity) {
+    let fiveDayForecastEl = $('<div>').attr('class', '5-day-forecast');
+    let forecastDate = $('<h3').attr('class', 'card-text');
+    let forecastIcon = $('<img>').attr('class', 'weather-icon');
+    let forecastTemp = $('<p>').attr('class', 'card-text');
+    let forecastHumidity = $('<p>').attr('class', 'card-text');
+
+    cardRow.append(fiveDayForecastEl);
+    forecastDate.text(date);
+    forecastIcon.attr('src', icon);
+    forecastTemp.text('Temp: ${temp} °F');
+    forecastHumidity.text('Humidity: ${humidity}%');
+    fiveDayForecastEl.append(forecastDate, forecastIcon, forecastTemp, forecastHumidity);
 }
 
 
 
-
-//5 day forecast api
-//https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
 
 
 
