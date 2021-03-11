@@ -1,8 +1,8 @@
 var searchButton = $('.searchBtn');
-var citySearch = S('.city-input');
+var citySearch = $('.city-input');
 
 //api key
-var key = "c8991a84574210433ef4c391a616abb1"; 
+var apiKey = '88dc99a68986cfd493639c4fb6cc6344'; 
 
 var chosenCityEl = $('.chosen-city');
 var currentDateEl = $('.current-date');
@@ -18,8 +18,8 @@ var cardRow = $('.card-row');
 
 
 //start city search
-searchButton.on('click', function(e) {
-    e.preventDefault();
+searchButton.on('click', function(event) {
+    event.preventDefault();
 
     getWeatherInfo(citySearch.val());
 });
@@ -43,19 +43,19 @@ function renderSavedSearches(chosenCityName) {
 function renderWeatherInfo(chosenCityName, cityTemp, cityHumid, cityWindSp, cityWthrIcon, uvRate) {
     chosenCityEl.text(chosenCityName);
     currentDateEl.text(todaysDate);
-    tempEl.text('Temperature: ${cityTemp} °F');
-    humidityEl.text('Humidity: ${cityHumid}%');
-    windSpeedEl.text('Wind Speed: ${cityWindSp} MPH');
-    uvIndexEl.text('UV Index: ${uvRate}');
+    tempEl.text(`Temperature: ${cityTemp} °F`);
+    humidityEl.text(`Humidity: ${cityHumid}%`);
+    windSpeedEl.text(`Wind Speed: ${cityWindSp} MPH`);
+    uvIndexEl.text(`UV Index: ${uvRate}`);
     weatherIconEl.attr('src', cityWthrIcon);
 }
 
 //function to get current weather from api 
 function getWeatherInfo(selectedCity) {
-    let queryUrl = 'https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${key}&units=imperial';
+    let queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}&units=imperial`;
     $.ajax({
         url: queryUrl,
-        method: 'GET' 
+        method: "GET"
     })
     .then(function(weatherInfo) {
         let cityInfo = {
@@ -66,9 +66,11 @@ function getWeatherInfo(selectedCity) {
             uvRate: weatherInfo.coord,
             cityWthrIcon: weatherInfo.weather[0].icon 
         }
-    let queryUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityInfo.uvRate.lat}&lon=${cityInfo.uvRate.lon}&APPID=${key}&units=imperial`
+    
+    //get uv index
+    let queryUrlUv = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityInfo.uvRate.lat}&lon=${cityInfo.uvRate.lon}&appid=${apiKey}&units=imperial`;
     $.ajax({
-        url: queryUrl,
+        url: queryUrlUv,
         method: 'GET'
     })
     .then(function(uvInfo) {
@@ -77,11 +79,11 @@ function getWeatherInfo(selectedCity) {
             if (cityListArr.indexOf(cityInfo.chosenCityName) === -1) {
                 cityListArr.push(cityInfo.chosenCityName);
                 localStorage.setItem('citySearches', JSON.stringify(cityListArr));
-                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;               
+                let displayedWthrIcon = `https://openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;               
                 renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);               
                 renderSavedSearches(cityInfo.chosenCityName);
             }else{
-                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
+                let displayedWthrIcon = `https://openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
                 renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);
             }
         }else{
@@ -89,11 +91,11 @@ function getWeatherInfo(selectedCity) {
             if (cityListArr.indexOf(cityInfo.chosenCityName) === -1) {
                 cityListArr.push(cityInfo.chosenCityName);
                 localStorage.setItem('citySearches', JSON.stringify(cityListArr));
-                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
+                let displayedWthrIcon = `https://openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
                 renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);               
                 renderSavedSearches(cityInfo.chosenCityName);
             }else{
-                let displayedWthrIcon = `https:///openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
+                let displayedWthrIcon = `https://openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
                 renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);
             }
         
@@ -106,7 +108,7 @@ function getWeatherInfo(selectedCity) {
 //https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
     function displayNextFiveDays() {
         cardRow.empty();
-        let queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q={selectedCity}&appid={key}'
+        let queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q={selectedCity}&appid={apiKey}'
         $.ajax({
             url: queryUrl,
             method: 'GET'
