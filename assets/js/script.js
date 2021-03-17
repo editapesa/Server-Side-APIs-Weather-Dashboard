@@ -29,6 +29,7 @@ $(document).on('click', '.savedSearch', function() {
     getWeatherInfo(thisElement.text());
 })
 
+renderSavedSearches();
 //local storage to store city search history
 function renderSavedSearches(chosenCityName) {
     cityListEl.empty();
@@ -68,9 +69,9 @@ function getWeatherInfo(selectedCity) {
         }
     
     //get uv index
-    let queryUrlUv = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityInfo.uvRate.lat}&lon=${cityInfo.uvRate.lon}&appid=${apiKey}&units=imperial`;
+    let queryUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityInfo.uvRate.lat}&lon=${cityInfo.uvRate.lon}&appid=${apiKey}&units=imperial`;
     $.ajax({
-        url: queryUrlUv,
+        url: queryUrl,
         method: 'GET'
     })
     .then(function(uvInfo) {
@@ -100,15 +101,31 @@ function getWeatherInfo(selectedCity) {
             }
         
         }
+
+        //change color of uv index depending on value
+        // if (uvInfo.value > 0 && uvInfo.value <=2){
+        //     uvRate.attr('class', 'green')
+        // }
+        // else if (uvInfo.value > 2 && uvInfo.value <= 5) {
+        //     uvRate.attr('class', 'yellow')
+        // }
+        // else if (uvInfo.value > 5 && uvInfo.value <= 7) {
+        //     uvRate.attr('class', 'orange')
+        // }
+        // else if (uvInfo.value > 7 && uvInfo.value <= 10) {
+        //     uvRate.attr('class', 'red')
+        // }
+        // else{
+        //     uvRate.attr('class', 'purple')
+        // }
     })
     });
+    displayNextFiveDays();
 
 // get five day forecast
-//5 day forecast api
-//https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
     function displayNextFiveDays() {
         cardRow.empty();
-        let queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q={selectedCity}&appid={apiKey}'
+        let queryUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${selectedCity}&appid=${apiKey}&units=imperial`;
         $.ajax({
             url: queryUrl,
             method: 'GET'
@@ -123,7 +140,7 @@ function getWeatherInfo(selectedCity) {
                 }
                 let dateInfo = cityInfo.date;
                 let trDate = dateInfo.substring(0, 10);
-                let wthrIcon = 'https://openweather.org/img/w/${cityInfo.icon}.png';
+                let wthrIcon = `https://openweather.org/img/w/${cityInfo.icon}.png`;
                 displayForecastCard(trDate, wthrIcon, cityInfo.temp, cityInfo.humidity);
             }
         })
@@ -141,8 +158,8 @@ function displayForecastCard(date, icon, temp, humidity) {
     cardRow.append(fiveDayForecastEl);
     forecastDate.text(date);
     forecastIcon.attr('src', icon);
-    forecastTemp.text('Temp: ${temp} °F');
-    forecastHumidity.text('Humidity: ${humidity}%');
+    forecastTemp.text(`Temp: ${temp} °F`);
+    forecastHumidity.text(`Humidity: ${humidity}%`);
     fiveDayForecastEl.append(forecastDate, forecastIcon, forecastTemp, forecastHumidity);
 }
 
