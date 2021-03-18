@@ -14,7 +14,7 @@ var tempEl = $('.temp');
 var humidityEl = $('.humidity');
 var windSpeedEl = $('.wind-speed');
 var uvIndexEl = $('.uv-index');
-var cardRow = $('.card-row');
+var cardBody = $('.card-body');
 
 
 //start city search
@@ -99,63 +99,52 @@ function getWeatherInfo(selectedCity) {
                 let displayedWthrIcon = `https://openweathermap.org/img/w/${cityInfo.cityWthrIcon}.png`;
                 renderWeatherInfo(cityInfo.chosenCityName, cityInfo.cityTemp, cityInfo.cityHumid, cityInfo.cityWindSp, displayedWthrIcon, uvInfo.value);
             }
-        
         }
 
-        //change color of uv index depending on value
-        // if (uvInfo.value > 0 && uvInfo.value <=2){
-        //     uvRate.attr('class', 'green')
-        // }
-        // else if (uvInfo.value > 2 && uvInfo.value <= 5) {
-        //     uvRate.attr('class', 'yellow')
-        // }
-        // else if (uvInfo.value > 5 && uvInfo.value <= 7) {
-        //     uvRate.attr('class', 'orange')
-        // }
-        // else if (uvInfo.value > 7 && uvInfo.value <= 10) {
-        //     uvRate.attr('class', 'red')
-        // }
-        // else{
-        //     uvRate.attr('class', 'purple')
-        // }
+//add colors to different uv rates       
+        if (uvInfo.value > 0 && uvInfo.value <= 3) {
+            uvIndexEl.addClass('btn-success');
+        }else if (uvInfo.value > 3 && uvInfo.value <= 7) {
+            uvIndexEl.addClass('btn-warning');
+        }else {
+            uvIndexEl.addClass('btn-danger');
+        }
+
     })
-    });
-    displayNextFiveDays();
+    })
+};
+
+getNextFiveDays();
 
 // get five day forecast
-    function displayNextFiveDays() {
-        cardRow.empty();
-        let queryUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${selectedCity}&appid=${apiKey}&units=imperial`;
-        $.ajax({
-            url: queryUrl,
-            method: 'GET'
-        })
-        .then (function(fiveDayForecast) {
-            for (let i = 0; i != fiveDayForecast.list.length; i+=8 ) {
-                let cityInfo = {
-                    date: fiveDayForecast.list[i].dt_txt,
-                    icon: fiveDayForecast.list[i].weather[0].icon,
-                    temp: fiveDayForecast.list[i].main.temp,
-                    humidity: fiveDayForecast.list[i].main.humidity
-                }
-                let dateInfo = cityInfo.date;
-                let trDate = dateInfo.substring(0, 10);
-                let wthrIcon = `https://openweather.org/img/w/${cityInfo.icon}.png`;
-                displayForecastCard(trDate, wthrIcon, cityInfo.temp, cityInfo.humidity);
+function getNextFiveDays() {
+    let queryUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${selectedCity}&appid=${apiKey}&units=imperial`;
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    })
+    .then(function(fiveDayForecast) {
+        for (let i = 0; i != fiveDayForecast.list.length; i+=8 ) {
+            let cityInfo = {
+                date: fiveDayForecast.list[i].main.date,
+                icon: fiveDayForecast.list[i].weather[0].icon,
+                temp: fiveDayForecast.list[i].main.temp,
+                humidity: fiveDayForecast.list[i].main.humidity
             }
-        })
-    }
-
+            let wthrIcon = `https://openweather.org/img/w/${cityInfo.icon}.png`;
+            displayForecastCard(cityInfo.date, wthrIcon, cityInfo.temp, cityInfo.humidity);
+        }
+    })
 }
 
 function displayForecastCard(date, icon, temp, humidity) {
-    let fiveDayForecastEl = $('<div>').attr('class', '5-day-forecast');
-    let forecastDate = $('<h3').attr('class', 'card-text');
+    let fiveDayForecastEl = $('<div>').attr('class', 'five-day-card');
+    let forecastDate = $('<h2').attr('class', 'card-text');
     let forecastIcon = $('<img>').attr('class', 'weather-icon');
     let forecastTemp = $('<p>').attr('class', 'card-text');
     let forecastHumidity = $('<p>').attr('class', 'card-text');
 
-    cardRow.append(fiveDayForecastEl);
+    cardBody.append(fiveDayForecastEl);
     forecastDate.text(date);
     forecastIcon.attr('src', icon);
     forecastTemp.text(`Temp: ${temp} °F`);
@@ -164,10 +153,8 @@ function displayForecastCard(date, icon, temp, humidity) {
 }
 
 
-
-
-
-
+document.cookie = "promo_shown=1; Max-Age=2600000; Secure"
+"promo_shown=1; Max-Age=2600000; Secure"
 
 
 

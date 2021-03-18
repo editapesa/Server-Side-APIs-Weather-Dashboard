@@ -24,7 +24,7 @@
             <div id="city-search" class="city-list"></div>
         </div>
         <div class="col-12 col-md-8 bg-white">
-            <div class="card">
+            <div class="container">
                 <h2 class="chosen-city">City Name</h2> 
                 <h2 class="current-date"></h2>
                 <img class="weather-icon">  
@@ -33,16 +33,19 @@
                     <p class="wind-speed">Wind Speed:</p>
                     <p class="uv-index">UV Index:</p>
             </div>
-         <div class="container">  
-            <div class="5-day-forecast">
-                <h2>Five Day Forecast:</h2>
-                    <div class="card-row">
-                    
-                    <!-- <div class="col-sm-6 col-md-4 col-lg-2">
-                    </div> -->
-                    </div>   
-            </div>
-        </div> 
+        <!-- <div class="col-sm-6 col-md-4 col-lg-2"> -->
+            <div class="card">  
+                <div class="five-day-forecast">
+                    <h2>Five Day Forecast:</h2>
+                        <div class="card-body">
+                            <h2>Date</h2>
+                            <img>Icon
+                            <p>Temp</p>
+                            <p>Humidity %</p>
+                        </div>
+                </div>
+            </div> 
+        </div>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
