@@ -10,4 +10,4 @@ This project involved creating an application for a user to be able to access th
 
 Please click on this link to access it: [Weather Dashboard](https://url.com)
 
-![demo pic](image.jpg)
+![demo pic](assets\images\demo-pic.jpg)

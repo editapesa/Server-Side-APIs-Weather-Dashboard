@@ -147,7 +147,7 @@ function getWeatherInfo(selectedCity) {
 function displayForecastCard(date, icon, temp, humidity, index) {
     console.log(`start-${index}`)
         let fiveDayForecastEl = $('<div>').attr('class', 'five-day-forecast');
-        let forecastDate = $('<h2>').attr('class', 'card-text');
+        let forecastDate = $('<h4>').attr('class', 'card-text');
         let forecastIcon = $('<img>').attr('class', 'weather-icon');
         let forecastTemp = $('<p>').attr('class', 'card-text');
         let forecastHumidity = $('<p>').attr('class', 'card-text');

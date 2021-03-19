@@ -14,5 +14,14 @@ header {
     border: solid;
 }
 
+.card {
+    background-color: beige;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 
