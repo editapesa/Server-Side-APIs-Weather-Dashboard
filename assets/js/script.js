@@ -125,9 +125,9 @@ function getWeatherInfo(selectedCity) {
             method: "GET"
         })
         .then(function(fiveDayForecast) {
-            console.log(fiveDayForecast);
+            // console.log(fiveDayForecast);
             for (let i = 0; i < fiveDayForecast.list.length; i+=8) {
-                console.log(fiveDayForecast.list.length);
+                // console.log(fiveDayForecast.list.length);
                 let cityInfo = {
                     date: fiveDayForecast.list[i].dt_txt,
                     icon: fiveDayForecast.list[i].weather[0].icon,
@@ -137,7 +137,7 @@ function getWeatherInfo(selectedCity) {
                 let cardDate = cityInfo.date;
                 let trDate = cardDate.substring(0, 10);
                 let wthrIcon = `https://openweathermap.org/img/w/${cityInfo.icon}.png`;
-                console.log(`card-${i}`, cityInfo)
+                // console.log(`card-${i}`, cityInfo)
                 displayForecastCard(trDate, wthrIcon, cityInfo.temp, cityInfo.humidity, i);  
             }
             
@@ -146,7 +146,7 @@ function getWeatherInfo(selectedCity) {
 }
 function displayForecastCard(date, icon, temp, humidity, index) {
     console.log(`start-${index}`)
-        let fiveDayForecastEl = $('<div>').attr('class', 'five-day-card');
+        let fiveDayForecastEl = $('<div>').attr('class', 'five-day-forecast');
         let forecastDate = $('<h2>').attr('class', 'card-text');
         let forecastIcon = $('<img>').attr('class', 'weather-icon');
         let forecastTemp = $('<p>').attr('class', 'card-text');
@@ -158,7 +158,7 @@ function displayForecastCard(date, icon, temp, humidity, index) {
         forecastTemp.text(`Temp: ${temp} °F`);
         forecastHumidity.text(`Humidity: ${humidity}%`);
         fiveDayForecastEl.append(forecastDate, forecastIcon, forecastTemp, forecastHumidity);
-        console.log(`built-${index}`)
+        // console.log(`built-${index}`)
     }
 
 
