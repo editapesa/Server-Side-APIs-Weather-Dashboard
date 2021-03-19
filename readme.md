@@ -8,6 +8,6 @@ This project involved creating an application for a user to be able to access th
 - The future 5 day forecast for that city will display the date, an icon representing the weather conditions, temperature, and humidity.
 - If a city in the search history is selected, the current and future weather conditions will appear again.
 
-Please click on this link to access it: [Weather Dashboard](https://url.com)
+Please click on this link to access it: [Weather Dashboard](https://editapesa.github.io/Server-Side-APIs-Weather-Dashboard/)
 
 ![demo pic](assets\images\demo-pic.jpg)
